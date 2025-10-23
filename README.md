@@ -170,7 +170,7 @@ Where:
 - [x] Phase 1: Project setup
 - [x] Phase 2: Core math (Vector2, Transform)
 - [x] Phase 3: Basic physics (RigidBody, CircleCollider, PhysicsWorld)
-- [ ] Phase 4: Collision system
+- [x] Phase 4: Collision system (circle-circle detection and response)
 - [ ] Phase 5: Python bindings
 - [ ] Phase 6: Visualization
 - [ ] Phase 7: Enhanced features (boxes, rotation, demos)
