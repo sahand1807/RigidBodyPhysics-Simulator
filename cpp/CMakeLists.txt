@@ -48,3 +48,56 @@ if(MSVC)
 else()
     target_compile_options(physics_engine_core PRIVATE -Wall -Wextra -pedantic)
 endif()
+
+# ========================================
+# Test Executables (optional)
+# ========================================
+
+# Build tests if requested (cmake -DBUILD_TESTS=ON)
+option(BUILD_TESTS "Build test executables" OFF)
+
+if(BUILD_TESTS)
+    # Vector2 test
+    add_executable(test_vector2
+        ${CMAKE_CURRENT_SOURCE_DIR}/../tests/cpp/test_vector2.cpp
+        src/math/Vector2.cpp
+    )
+    target_include_directories(test_vector2 PRIVATE include)
+
+    # Transform test
+    add_executable(test_transform
+        ${CMAKE_CURRENT_SOURCE_DIR}/../tests/cpp/test_transform.cpp
+        src/math/Transform.cpp
+        src/math/Vector2.cpp
+    )
+    target_include_directories(test_transform PRIVATE include)
+
+    # RigidBody test
+    add_executable(test_rigidbody
+        ${CMAKE_CURRENT_SOURCE_DIR}/../tests/cpp/test_rigidbody.cpp
+        src/physics/RigidBody.cpp
+        src/math/Transform.cpp
+        src/math/Vector2.cpp
+    )
+    target_include_directories(test_rigidbody PRIVATE include)
+
+    # Collider test
+    add_executable(test_collider
+        ${CMAKE_CURRENT_SOURCE_DIR}/../tests/cpp/test_collider.cpp
+        src/physics/Collider.cpp
+        src/physics/CircleCollider.cpp
+        src/math/Transform.cpp
+        src/math/Vector2.cpp
+    )
+    target_include_directories(test_collider PRIVATE include)
+
+    # PhysicsWorld test
+    add_executable(test_physicsworld
+        ${CMAKE_CURRENT_SOURCE_DIR}/../tests/cpp/test_physicsworld.cpp
+        src/physics/PhysicsWorld.cpp
+        src/physics/RigidBody.cpp
+        src/math/Transform.cpp
+        src/math/Vector2.cpp
+    )
+    target_include_directories(test_physicsworld PRIVATE include)
+endif()
