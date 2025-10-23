@@ -1,6 +1,10 @@
+<p align="center">
+  <img src="Logo.png" alt="2D Rigid Body Physics Simulator Logo" width="400"/>
+</p>
+
 # 2D Rigid Body Physics Simulator
 
-A 2D rigid body physics engine written in C++ with Python bindings for visualization and interaction.
+A high-performance 2D rigid body physics engine written in C++ from scratch, with Python bindings for visualization and interaction.
 
 ## Overview
 
