@@ -1,0 +1,13 @@
+# Core dependencies
+pybind11>=2.10.0
+numpy>=1.21.0
+
+# Visualization
+pygame>=2.5.0
+
+# Development dependencies
+pytest>=7.0.0
+pytest-cov>=3.0.0
+
+# Build dependencies
+cmake>=3.12
