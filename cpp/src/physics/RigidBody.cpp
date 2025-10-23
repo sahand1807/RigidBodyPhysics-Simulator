@@ -25,6 +25,7 @@ RigidBody::RigidBody()
     , torqueAccumulator(0.0f)
     , restitution(0.5f)
     , friction(0.5f)
+    , collider(nullptr)
 {
 }
 
@@ -272,6 +273,14 @@ Vector2 RigidBody::getVelocityAtPoint(const Vector2& worldPoint) const {
 
     // Total velocity is linear velocity + rotational contribution
     return velocity + rotationalVelocity;
+}
+
+// ========================================
+// Collider Management
+// ========================================
+
+void RigidBody::setCollider(Collider* collider) {
+    this->collider = collider;
 }
 
 } // namespace Physics

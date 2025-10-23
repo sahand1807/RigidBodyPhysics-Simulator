@@ -4,6 +4,8 @@
  */
 
 #include "physics/PhysicsWorld.hpp"
+#include "physics/CollisionDetection.hpp"
+#include "physics/CollisionResponse.hpp"
 #include <algorithm>
 
 namespace Physics {
@@ -69,7 +71,10 @@ void PhysicsWorld::step(float dt) {
         body->integrate(dt);
     }
 
-    // 3. Clear force accumulators for next frame
+    // 3. Detect and resolve collisions
+    detectAndResolveCollisions();
+
+    // 4. Clear force accumulators for next frame
     for (RigidBody* body : bodies) {
         body->clearForces();
     }
@@ -98,6 +103,34 @@ void PhysicsWorld::applyGravity(float dt) {
         // Note: We apply force, not impulse, so it accumulates with other forces
         Vector2 gravityForce = gravity * body->getMass();
         body->applyForce(gravityForce);
+    }
+}
+
+void PhysicsWorld::detectAndResolveCollisions() {
+    // Check all pairs of bodies for collisions
+    // O(n²) complexity - could be optimized with spatial partitioning
+    for (size_t i = 0; i < bodies.size(); i++) {
+        for (size_t j = i + 1; j < bodies.size(); j++) {
+            RigidBody* bodyA = bodies[i];
+            RigidBody* bodyB = bodies[j];
+
+            // Skip if either body has no collider
+            if (!bodyA->hasCollider() || !bodyB->hasCollider()) {
+                continue;
+            }
+
+            // Skip if both bodies are static (they can't move anyway)
+            if (bodyA->isStatic() && bodyB->isStatic()) {
+                continue;
+            }
+
+            // Detect collision
+            Manifold manifold;
+            if (CollisionDetection::detectCollision(bodyA, bodyB, manifold)) {
+                // Collision detected! Resolve it
+                CollisionResponse::resolveCollision(manifold);
+            }
+        }
     }
 }
 

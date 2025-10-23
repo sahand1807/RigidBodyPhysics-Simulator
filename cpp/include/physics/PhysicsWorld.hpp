@@ -164,7 +164,8 @@ public:
      * This performs the complete integration loop:
      * 1. Apply gravity to all non-static bodies
      * 2. Integrate each body (update velocity and position)
-     * 3. Clear force accumulators
+     * 3. Detect and resolve collisions
+     * 4. Clear force accumulators
      *
      * Typical dt values:
      * - 60 FPS: dt = 1/60 ≈ 0.0167 seconds
@@ -245,6 +246,20 @@ private:
      * Static bodies (invMass = 0) are skipped.
      */
     void applyGravity(float dt);
+
+    /**
+     * @brief Detect and resolve all collisions
+     *
+     * Checks all pairs of bodies for collisions:
+     * - Skip if either body has no collider
+     * - Skip if both bodies are static
+     * - Detect collision using CollisionDetection
+     * - Resolve collision using CollisionResponse
+     *
+     * Complexity: O(n²) where n = number of bodies
+     * For large worlds, use spatial partitioning (future enhancement).
+     */
+    void detectAndResolveCollisions();
 };
 
 } // namespace Physics

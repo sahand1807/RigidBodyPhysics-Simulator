@@ -14,6 +14,9 @@
 
 namespace Physics {
 
+// Forward declaration
+class Collider;
+
 /**
  * @class RigidBody
  * @brief Represents a rigid body in 2D physics simulation
@@ -416,6 +419,33 @@ public:
      */
     Vector2 getVelocityAtPoint(const Vector2& worldPoint) const;
 
+    // ========================================
+    // Collider Management
+    // ========================================
+
+    /**
+     * @brief Attach a collider to this body
+     * @param collider Pointer to collider (body does NOT take ownership)
+     *
+     * The collider defines the shape for collision detection and
+     * mass property calculations.
+     *
+     * Note: Body does not own the collider. User must manage lifetime.
+     */
+    void setCollider(Collider* collider);
+
+    /**
+     * @brief Get attached collider
+     * @return Pointer to collider, or nullptr if none attached
+     */
+    Collider* getCollider() const { return collider; }
+
+    /**
+     * @brief Check if body has a collider
+     * @return True if collider attached
+     */
+    bool hasCollider() const { return collider != nullptr; }
+
 private:
     // ========================================
     // Physical State
@@ -438,6 +468,9 @@ private:
     // Material properties
     float restitution;  ///< Coefficient of restitution [0, 1]
     float friction;     ///< Coefficient of friction [0, 1+]
+
+    // Collision shape
+    Collider* collider;  ///< Collision shape (not owned by body)
 };
 
 } // namespace Physics
