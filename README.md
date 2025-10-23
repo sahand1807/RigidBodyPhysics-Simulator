@@ -168,8 +168,8 @@ Where:
 ## Development Roadmap
 
 - [x] Phase 1: Project setup
-- [ ] Phase 2: Core math (Vector2, Transform)
-- [ ] Phase 3: Basic physics (circles only)
+- [x] Phase 2: Core math (Vector2, Transform)
+- [x] Phase 3: Basic physics (RigidBody, CircleCollider, PhysicsWorld)
 - [ ] Phase 4: Collision system
 - [ ] Phase 5: Python bindings
 - [ ] Phase 6: Visualization
