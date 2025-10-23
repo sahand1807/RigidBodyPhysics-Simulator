@@ -32,15 +32,16 @@ class CMakeBuild(build_ext):
 
         build_args = ['--config', 'Release']
 
-        # Run CMake
+        # Run CMake (use system cmake explicitly)
+        cmake_cmd = '/usr/bin/cmake' if os.path.exists('/usr/bin/cmake') else 'cmake'
         subprocess.check_call(
-            ['cmake', ext.sourcedir] + cmake_args,
+            [cmake_cmd, ext.sourcedir] + cmake_args,
             cwd=self.build_temp
         )
 
         # Build
         subprocess.check_call(
-            ['cmake', '--build', '.'] + build_args,
+            [cmake_cmd, '--build', '.'] + build_args,
             cwd=self.build_temp
         )
 

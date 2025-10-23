@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "pybind11>=2.10.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "physics-engine"
+version = "0.1.0"
+description = "A 2D rigid body physics simulator in C++ with Python bindings"
+authors = [{name = "Sahand Sadeghi"}]
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "pybind11>=2.10.0",
+    "pygame>=2.5.0",
+    "numpy>=1.21.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0.0"]
+
+[tool.setuptools]
+packages = ["physics_viz"]
+package-dir = {"" = "python"}

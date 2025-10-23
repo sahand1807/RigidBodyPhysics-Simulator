@@ -9,8 +9,20 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Enable position independent code for shared libraries
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# Find pybind11
-find_package(pybind11 CONFIG REQUIRED)
+# Find Python
+find_package(Python COMPONENTS Interpreter Development REQUIRED)
+
+# Find pybind11 - try config first, then use Python's pybind11
+find_package(pybind11 CONFIG QUIET)
+if(NOT pybind11_FOUND)
+    # Use pybind11 from Python installation
+    execute_process(
+        COMMAND "${Python_EXECUTABLE}" -c "import pybind11; print(pybind11.get_cmake_dir())"
+        OUTPUT_VARIABLE pybind11_DIR
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    find_package(pybind11 CONFIG REQUIRED)
+endif()
 
 # Include directories
 include_directories(
