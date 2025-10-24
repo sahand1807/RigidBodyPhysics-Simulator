@@ -4,6 +4,18 @@
 
 # 2D Rigid Body Physics Simulator
 
+<p align="center">
+  <a href="https://sahand1807.github.io/RigidBodyPhysics-Simulator/">
+    <img src="https://img.shields.io/badge/API-Documentation-blue?style=for-the-badge&logo=read-the-docs&logoColor=white" alt="API Documentation">
+  </a>
+  <a href="https://sahand1807.github.io/RigidBodyPhysics-Simulator/cpp/">
+    <img src="https://img.shields.io/badge/C++-API-00599C?style=for-the-badge&logo=c%2B%2B&logoColor=white" alt="C++ API">
+  </a>
+  <a href="https://sahand1807.github.io/RigidBodyPhysics-Simulator/python/">
+    <img src="https://img.shields.io/badge/Python-API-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python API">
+  </a>
+</p>
+
 A high-performance 2D rigid body physics engine written in C++ from scratch, with Python bindings for visualization and interaction.
 
 ## Overview
