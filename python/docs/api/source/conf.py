@@ -33,6 +33,9 @@ language = 'en'
 # Autodoc settings
 autodoc_member_order = 'bysource'
 
+# Mock imports for C++ extension modules that can't be built in CI
+autodoc_mock_imports = ['physics_viz.physics_engine_core']
+
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
