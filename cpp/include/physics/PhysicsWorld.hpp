@@ -16,6 +16,7 @@
 
 #include "math/Vector2.hpp"
 #include "physics/RigidBody.hpp"
+#include "physics/Constraint.hpp"
 #include <vector>
 #include <memory>
 
@@ -154,6 +155,60 @@ public:
     size_t getBodyCount() const { return bodies.size(); }
 
     // ========================================
+    // Constraint Management
+    // ========================================
+
+    /**
+     * @brief Add a constraint to the simulation
+     * @param constraint Pointer to Constraint to add
+     *
+     * The constraint will be solved during each step() call.
+     *
+     * Note: PhysicsWorld does NOT take ownership.
+     * Do not delete the constraint without calling removeConstraint() first.
+     *
+     * Example:
+     * @code
+     * DistanceConstraint* rope = new DistanceConstraint(ball, ...);
+     * world.addConstraint(rope);
+     * // ... simulate ...
+     * world.removeConstraint(rope);
+     * delete rope;
+     * @endcode
+     */
+    void addConstraint(Constraint* constraint);
+
+    /**
+     * @brief Remove a constraint from the simulation
+     * @param constraint Pointer to Constraint to remove
+     * @return True if constraint was found and removed, false otherwise
+     *
+     * After removal, the constraint is no longer solved.
+     * User is still responsible for deleting the constraint.
+     */
+    bool removeConstraint(Constraint* constraint);
+
+    /**
+     * @brief Remove all constraints from the simulation
+     *
+     * Note: Does NOT delete the constraints!
+     * User must delete constraints separately if needed.
+     */
+    void clearConstraints();
+
+    /**
+     * @brief Get all constraints in the simulation
+     * @return Const reference to vector of constraint pointers
+     */
+    const std::vector<Constraint*>& getConstraints() const { return constraints; }
+
+    /**
+     * @brief Get number of constraints in simulation
+     * @return Number of constraints
+     */
+    size_t getConstraintCount() const { return constraints.size(); }
+
+    // ========================================
     // Simulation Control
     // ========================================
 
@@ -228,8 +283,9 @@ private:
     // Private Members
     // ========================================
 
-    std::vector<RigidBody*> bodies;  ///< All bodies in the simulation
-    Vector2 gravity;                  ///< Global gravity acceleration (m/s²)
+    std::vector<RigidBody*> bodies;      ///< All bodies in the simulation
+    std::vector<Constraint*> constraints; ///< All constraints in the simulation
+    Vector2 gravity;                      ///< Global gravity acceleration (m/s²)
 
     // ========================================
     // Private Helper Methods
@@ -260,6 +316,20 @@ private:
      * For large worlds, use spatial partitioning (future enhancement).
      */
     void detectAndResolveCollisions();
+
+    /**
+     * @brief Solve all constraints iteratively
+     * @param dt Time step in seconds
+     * @param iterations Number of solver iterations
+     *
+     * Runs the XPBD constraint solver for all active constraints.
+     * More iterations → more accurate but slower.
+     *
+     * Typical values:
+     * - Pre-collision: 5-10 iterations for stable constraint behavior
+     * - Post-collision: 2-3 iterations to fix constraint drift from collisions
+     */
+    void solveConstraints(float dt, int iterations);
 };
 
 } // namespace Physics

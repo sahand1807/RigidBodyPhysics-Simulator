@@ -32,6 +32,13 @@ This project implements a complete 2D physics simulation system from scratch, fe
   - Impulse-based collision resolution
   - Configurable friction and restitution coefficients
 
+- **Constraint System**
+  - Distance constraints (XPBD-based)
+  - Body-to-world and body-to-body constraints
+  - Rigid rods and flexible strings
+  - Compliance parameter for stiffness control
+  - Energy-conserving velocity updates
+
 - **Forces**
   - Gravity simulation
   - User-applied impulses
@@ -129,6 +136,9 @@ python3 python/examples/momentum_transfer.py
 
 # Ball pit with dynamic spawning
 python3 python/examples/ball_pit.py
+
+# Newton's cradle with distance constraints
+python3 python/examples/newtons_cradle.py
 ```
 
 **Controls:**
@@ -156,6 +166,13 @@ python3 python/examples/ball_pit.py
 4. **Balls Chamber**: High-energy particles bouncing in a closed chamber
 5. **Momentum Transfer**: Projectile hits stationary chain, demonstrating elastic collision momentum transfer
 6. **Ball Pit**: Continuous spawning of balls into a container
+7. **Newton's Cradle**: Interactive demonstration of conservation of momentum and energy
+   - Adjustable number of balls (3-15)
+   - Configurable rod length (2-10m)
+   - Initial angle control (0-60°)
+   - Real-time energy display (kinetic, potential, total)
+   - Play/pause/reset controls
+   - Showcases XPBD distance constraints with energy conservation
 
 ## Physics Theory
 
@@ -201,7 +218,45 @@ Where:
 - [x] Phase 5: Python bindings (pybind11, full C++ API exposure)
 - [x] Phase 6: Visualization (Pygame, camera system, interactive demos)
 - [x] Phase 7: Enhanced features (BoxCollider, box-circle collision, realistic ground planes)
+- [x] Phase 8: Constraint system (XPBD distance constraints, Newton's cradle demo)
 
+
+## Documentation
+
+### Manual Documentation
+
+Comprehensive guides are available in the `docs/` directory:
+- `01_Vector2_Documentation.md` - Vector math operations
+- `02_Transform_Documentation.md` - Position and rotation transforms
+- `03_RigidBody_Documentation.md` - Rigid body physics
+- `04_Collider_CircleCollider_Documentation.md` - Circle colliders
+- `05_PhysicsWorld_Documentation.md` - Physics simulation world
+- `06_Collision_System_Documentation.md` - Collision detection and resolution
+- `07_Python_Bindings_Documentation.md` - Python API bindings
+- `08_BoxCollider_Documentation.md` - Box colliders and SAT
+- `09_Interactive_Physics_Builder.md` - Scene editor documentation
+- `10_Constraint_System_Documentation.md` - Physics constraints (XPBD)
+- `11_Newtons_Cradle_Example.md` - Newton's cradle demo guide
+
+### API Documentation
+
+Generate comprehensive API documentation using:
+
+**C++ API (Doxygen)**:
+```bash
+doxygen Doxyfile
+# Output: docs/api/cpp/html/index.html
+```
+
+**Python API (Sphinx)**:
+```bash
+cd python
+sphinx-apidoc -f -o docs/api/source ../physics_viz
+cd docs/api && make html
+# Output: python/docs/api/build/html/index.html
+```
+
+See `docs/README_API_DOCS.md` for detailed instructions.
 
 ## Creator
 

@@ -21,6 +21,10 @@ try:
         # Physics
         RigidBody,
         PhysicsWorld,
+
+        # Constraints
+        Constraint,
+        DistanceConstraint,
     )
 except ImportError as e:
     # If C++ module not built yet, provide helpful error
@@ -52,6 +56,10 @@ __all__ = [
     # Physics
     'RigidBody',
     'PhysicsWorld',
+
+    # Constraints
+    'Constraint',
+    'DistanceConstraint',
 
     # Visualization
     'Camera',

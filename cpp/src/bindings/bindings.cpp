@@ -16,6 +16,8 @@
 #include "physics/Collider.hpp"
 #include "physics/CircleCollider.hpp"
 #include "physics/BoxCollider.hpp"
+#include "physics/Constraint.hpp"
+#include "physics/DistanceConstraint.hpp"
 #include "physics/PhysicsWorld.hpp"
 
 #include <cmath>
@@ -285,6 +287,60 @@ PYBIND11_MODULE(physics_engine_core, m) {
         });
 
     // ========================================
+    // Constraint Base Class
+    // ========================================
+    py::class_<Constraint>(m, "Constraint")
+        .def("solve", &Constraint::solve, "Solve constraint for one iteration", py::arg("dt"))
+        .def("is_valid", &Constraint::isValid, "Check if constraint is valid")
+        .def("involves", &Constraint::involves, "Check if constraint involves body",
+             py::arg("body"))
+        .def("set_enabled", &Constraint::setEnabled, "Enable or disable constraint",
+             py::arg("enabled"))
+        .def("is_enabled", &Constraint::isEnabled, "Check if constraint is enabled");
+
+    // ========================================
+    // DistanceConstraint Class
+    // ========================================
+    py::class_<DistanceConstraint, Constraint>(m, "DistanceConstraint")
+        // Body-to-world constructor (hanging string)
+        .def(py::init<RigidBody*, const Vector2&, const Vector2&, float, float>(),
+             "Create body-to-world distance constraint (hanging string)",
+             py::arg("body_a"), py::arg("local_anchor_a"), py::arg("world_point"),
+             py::arg("length"), py::arg("compliance") = 0.0001f,
+             py::keep_alive<1, 2>())  // Keep bodyA alive while constraint exists
+
+        // Body-to-body constructor (rope segment)
+        .def(py::init<RigidBody*, const Vector2&, RigidBody*, const Vector2&, float, float>(),
+             "Create body-to-body distance constraint (rope segment)",
+             py::arg("body_a"), py::arg("local_anchor_a"),
+             py::arg("body_b"), py::arg("local_anchor_b"),
+             py::arg("length"), py::arg("compliance") = 0.0001f,
+             py::keep_alive<1, 2>(),  // Keep bodyA alive
+             py::keep_alive<1, 4>())  // Keep bodyB alive
+
+        // Getters
+        .def("get_body_a", &DistanceConstraint::getBodyA, "Get first body",
+             py::return_value_policy::reference_internal)
+        .def("get_body_b", &DistanceConstraint::getBodyB, "Get second body (may be None)",
+             py::return_value_policy::reference_internal)
+        .def("get_length", &DistanceConstraint::getLength, "Get target distance")
+        .def("get_compliance", &DistanceConstraint::getCompliance, "Get compliance (stiffness)")
+        .def("get_current_distance", &DistanceConstraint::getCurrentDistance,
+             "Get current distance between anchors")
+
+        // Setters
+        .def("set_length", &DistanceConstraint::setLength, "Set target distance", py::arg("length"))
+        .def("set_compliance", &DistanceConstraint::setCompliance, "Set compliance",
+             py::arg("compliance"))
+
+        .def("__repr__", [](const DistanceConstraint& c) {
+            std::string bodyB = c.getBodyB() ? "RigidBody" : "WorldPoint";
+            return "DistanceConstraint(length=" + std::to_string(c.getLength()) +
+                   ", compliance=" + std::to_string(c.getCompliance()) +
+                   ", bodyB=" + bodyB + ")";
+        });
+
+    // ========================================
     // PhysicsWorld Class
     // ========================================
     py::class_<PhysicsWorld>(m, "PhysicsWorld")
@@ -300,6 +356,16 @@ PYBIND11_MODULE(physics_engine_core, m) {
              py::return_value_policy::reference_internal)
         .def("get_body_count", &PhysicsWorld::getBodyCount, "Get number of bodies")
 
+        // Constraint management
+        .def("add_constraint", &PhysicsWorld::addConstraint, "Add constraint to simulation",
+             py::arg("constraint"), py::keep_alive<1, 2>())  // Keep constraint alive while world exists
+        .def("remove_constraint", &PhysicsWorld::removeConstraint, "Remove constraint from simulation",
+             py::arg("constraint"))
+        .def("clear_constraints", &PhysicsWorld::clearConstraints, "Remove all constraints")
+        .def("get_constraints", &PhysicsWorld::getConstraints, "Get all constraints",
+             py::return_value_policy::reference_internal)
+        .def("get_constraint_count", &PhysicsWorld::getConstraintCount, "Get number of constraints")
+
         // Simulation
         .def("step", &PhysicsWorld::step, "Advance simulation by time step", py::arg("dt"))
 
@@ -308,6 +374,7 @@ PYBIND11_MODULE(physics_engine_core, m) {
         .def("get_gravity", &PhysicsWorld::getGravity, "Get gravity vector")
 
         .def("__repr__", [](const PhysicsWorld& w) {
-            return "PhysicsWorld(bodies=" + std::to_string(w.getBodyCount()) + ")";
+            return "PhysicsWorld(bodies=" + std::to_string(w.getBodyCount()) +
+                   ", constraints=" + std::to_string(w.getConstraintCount()) + ")";
         });
 }

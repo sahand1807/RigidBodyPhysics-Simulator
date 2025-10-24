@@ -59,6 +59,44 @@ void PhysicsWorld::clear() {
 }
 
 // ========================================
+// Constraint Management
+// ========================================
+
+void PhysicsWorld::addConstraint(Constraint* constraint) {
+    if (constraint == nullptr) {
+        return;  // Ignore null pointers
+    }
+
+    // Check if constraint is already in the world
+    auto it = std::find(constraints.begin(), constraints.end(), constraint);
+    if (it != constraints.end()) {
+        return;  // Already added, don't duplicate
+    }
+
+    constraints.push_back(constraint);
+}
+
+bool PhysicsWorld::removeConstraint(Constraint* constraint) {
+    if (constraint == nullptr) {
+        return false;
+    }
+
+    // Find the constraint in the vector
+    auto it = std::find(constraints.begin(), constraints.end(), constraint);
+    if (it == constraints.end()) {
+        return false;  // Constraint not found
+    }
+
+    // Remove it
+    constraints.erase(it);
+    return true;
+}
+
+void PhysicsWorld::clearConstraints() {
+    constraints.clear();
+}
+
+// ========================================
 // Simulation Control
 // ========================================
 
@@ -71,10 +109,18 @@ void PhysicsWorld::step(float dt) {
         body->integrate(dt);
     }
 
-    // 3. Detect and resolve collisions
+    // 3. Solve constraints (pre-collision pass)
+    // Fewer iterations to preserve energy (too many iterations damp motion)
+    solveConstraints(dt, 3);
+
+    // 4. Detect and resolve collisions
     detectAndResolveCollisions();
 
-    // 4. Clear force accumulators for next frame
+    // 5. Solve constraints (post-collision pass)
+    // Fix constraint drift from collision resolution
+    solveConstraints(dt, 2);
+
+    // 6. Clear force accumulators for next frame
     for (RigidBody* body : bodies) {
         body->clearForces();
     }
@@ -130,6 +176,22 @@ void PhysicsWorld::detectAndResolveCollisions() {
                 // Collision detected! Resolve it
                 CollisionResponse::resolveCollision(manifold);
             }
+        }
+    }
+}
+
+void PhysicsWorld::solveConstraints(float dt, int iterations) {
+    // Iteratively solve all constraints
+    // More iterations → more accurate solution
+    for (int iter = 0; iter < iterations; iter++) {
+        for (Constraint* constraint : constraints) {
+            // Skip disabled or invalid constraints
+            if (!constraint->isEnabled() || !constraint->isValid()) {
+                continue;
+            }
+
+            // Solve the constraint
+            constraint->solve(dt);
         }
     }
 }
