@@ -1,0 +1,150 @@
+name: Build and Deploy API Documentation
+
+on:
+  push:
+    branches: [ master, main ]
+  workflow_dispatch:  # Allow manual trigger
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y doxygen graphviz
+
+    - name: Install Python dependencies
+      run: |
+        pip install sphinx sphinx-rtd-theme sphinx-autodoc-typehints
+
+    - name: Build C++ documentation with Doxygen
+      run: |
+        mkdir -p docs/api/cpp
+        doxygen Doxyfile
+
+    - name: Build Python documentation with Sphinx
+      run: |
+        cd python
+        sphinx-apidoc -f -o docs/api/source physics_viz
+        cd docs/api
+        make html
+
+    - name: Organize documentation for deployment
+      run: |
+        mkdir -p _site
+        mkdir -p _site/cpp
+        mkdir -p _site/python
+        cp -r docs/api/cpp/html/* _site/cpp/
+        cp -r python/docs/api/build/html/* _site/python/
+
+        # Create index page that links to both
+        cat > _site/index.html << 'EOF'
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>2D Rigid Body Physics Simulator - API Documentation</title>
+            <style>
+                body {
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+                    max-width: 800px;
+                    margin: 0 auto;
+                    padding: 40px 20px;
+                    line-height: 1.6;
+                    color: #333;
+                }
+                h1 {
+                    color: #2c3e50;
+                    border-bottom: 3px solid #3498db;
+                    padding-bottom: 10px;
+                }
+                .docs-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    gap: 20px;
+                    margin-top: 40px;
+                }
+                .doc-card {
+                    border: 2px solid #e0e0e0;
+                    border-radius: 8px;
+                    padding: 30px;
+                    text-decoration: none;
+                    color: inherit;
+                    transition: all 0.3s ease;
+                }
+                .doc-card:hover {
+                    border-color: #3498db;
+                    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.15);
+                    transform: translateY(-2px);
+                }
+                .doc-card h2 {
+                    margin-top: 0;
+                    color: #3498db;
+                }
+                .doc-card p {
+                    color: #666;
+                }
+                footer {
+                    margin-top: 60px;
+                    padding-top: 20px;
+                    border-top: 1px solid #e0e0e0;
+                    text-align: center;
+                    color: #999;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>2D Rigid Body Physics Simulator</h1>
+            <p>A high-performance 2D rigid body physics engine written in C++ from scratch, with Python bindings for visualization and interaction.</p>
+
+            <div class="docs-grid">
+                <a href="cpp/index.html" class="doc-card">
+                    <h2>C++ API Documentation</h2>
+                    <p>Core physics engine documentation generated with Doxygen. Includes class hierarchies, call graphs, and complete API reference for Vector2, RigidBody, Colliders, PhysicsWorld, and Constraints.</p>
+                </a>
+
+                <a href="python/index.html" class="doc-card">
+                    <h2>Python API Documentation</h2>
+                    <p>Python bindings and visualization layer documentation generated with Sphinx. Covers physics_viz package including camera, renderer, and simulation modules.</p>
+                </a>
+            </div>
+
+            <footer>
+                <p>Documentation automatically generated from source code</p>
+            </footer>
+        </body>
+        </html>
+        EOF
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: '_site'
+
+  deploy:
+    needs: build-docs
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4

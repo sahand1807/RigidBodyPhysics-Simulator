@@ -51,5 +51,7 @@ _deps
 htmlcov/
 .tox/
 
-# Documentation
+# Documentation - Generated API docs (don't commit)
 docs/_build/
+docs/api/cpp/
+python/docs/api/build/

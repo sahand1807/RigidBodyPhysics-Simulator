@@ -240,7 +240,16 @@ Comprehensive guides are available in the `docs/` directory:
 
 ### API Documentation
 
-Generate comprehensive API documentation using:
+**Online Documentation (Automatically Updated):**
+
+API documentation is automatically built and hosted via GitHub Actions + GitHub Pages:
+- **[View Online Documentation](https://sahand1807.github.io/RigidBodyPhysics-Simulator/)**
+- C++ API (Doxygen) - Class hierarchies, call graphs, complete reference
+- Python API (Sphinx) - Python bindings and visualization modules
+
+**Build Locally:**
+
+Generate comprehensive API documentation locally using:
 
 **C++ API (Doxygen)**:
 ```bash
@@ -251,12 +260,12 @@ doxygen Doxyfile
 **Python API (Sphinx)**:
 ```bash
 cd python
-sphinx-apidoc -f -o docs/api/source ../physics_viz
+sphinx-apidoc -f -o docs/api/source physics_viz
 cd docs/api && make html
 # Output: python/docs/api/build/html/index.html
 ```
 
-See `docs/README_API_DOCS.md` for detailed instructions.
+See `docs/README_API_DOCS.md` for local build instructions and `docs/README_HOSTING.md` for GitHub Pages setup.
 
 ## Creator
 
