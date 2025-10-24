@@ -112,23 +112,39 @@ for i in range(100):
 ### Running Demos
 
 ```bash
-# Newton's Cradle
-python python/examples/newtons_cradle.py
+# Interactive sandbox (click to spawn balls)
+python3 python/examples/sandbox.py
 
-# Domino effect
-python python/examples/dominos.py
+# Bouncing balls demonstration
+python3 python/examples/bouncing_balls.py
 
-# Interactive sandbox
-python python/examples/sandbox.py
+# Momentum transfer through collision chain
+python3 python/examples/momentum_transfer.py
+
+# Ball pit with dynamic spawning
+python3 python/examples/ball_pit.py
+
+# Pyramid stack (press SPACE to launch projectile)
+python3 python/examples/pyramid.py
 ```
+
+**Controls:**
+- **Mouse Drag**: Pan camera
+- **Mouse Wheel**: Zoom in/out
+- **Space**: Pause/Resume simulation
+- **R**: Reset simulation
+- **G**: Toggle grid display
+- **V**: Toggle velocity vectors
+- **H**: Toggle help overlay
+- **ESC**: Quit
 
 ## Demo Scenarios
 
-1. **Newton's Cradle**: Demonstrates momentum and energy conservation
-2. **Dominoes**: Chain reaction physics
-3. **Particle Fountain**: Projectile motion with gravity
-4. **Pyramid Stack**: Stacking stability and collision resolution
-5. **Interactive Sandbox**: Click to spawn and push objects
+1. **Interactive Sandbox**: Click to spawn random balls and watch them interact
+2. **Bouncing Balls**: Simple demonstration of balls bouncing with varying properties
+3. **Momentum Transfer**: Projectile hits stationary chain, demonstrating elastic collision momentum transfer
+4. **Ball Pit**: Continuous spawning of balls into a container
+5. **Pyramid Stack**: Stacking stability test with projectile launcher (press SPACE)
 
 ## Physics Theory
 
@@ -172,8 +188,8 @@ Where:
 - [x] Phase 3: Basic physics (RigidBody, CircleCollider, PhysicsWorld)
 - [x] Phase 4: Collision system (circle-circle detection and response)
 - [x] Phase 5: Python bindings (pybind11, full C++ API exposure)
-- [ ] Phase 6: Visualization
-- [ ] Phase 7: Enhanced features (boxes, rotation, demos)
+- [x] Phase 6: Visualization (Pygame, camera system, interactive demos)
+- [ ] Phase 7: Enhanced features (boxes, rotation, advanced demos)
 
 
 ## Creator

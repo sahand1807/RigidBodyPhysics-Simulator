@@ -28,6 +28,11 @@ except ImportError as e:
     print("Please build the package with: pip install -e .", file=sys.stderr)
     raise
 
+# Import visualization modules
+from .camera import Camera
+from .renderer import Renderer
+from .simulation import Simulation, InteractiveSandbox
+
 # Package version
 __version__ = "0.1.0"
 
@@ -45,4 +50,10 @@ __all__ = [
     # Physics
     'RigidBody',
     'PhysicsWorld',
+
+    # Visualization
+    'Camera',
+    'Renderer',
+    'Simulation',
+    'InteractiveSandbox',
 ]
