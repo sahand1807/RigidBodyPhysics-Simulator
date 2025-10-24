@@ -26,11 +26,16 @@ jobs:
     - name: Install system dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y doxygen graphviz
+        sudo apt-get install -y doxygen graphviz cmake build-essential
 
     - name: Install Python dependencies
       run: |
         pip install sphinx sphinx-rtd-theme sphinx-autodoc-typehints
+        pip install pybind11 pygame numpy
+
+    - name: Build Python package (needed for Sphinx to import modules)
+      run: |
+        pip install -e .
 
     - name: Build C++ documentation with Doxygen
       run: |
