@@ -18,6 +18,47 @@
 
 A high-performance 2D rigid body physics engine written in C++ from scratch, with Python bindings for visualization and interaction.
 
+## Gallery
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="demos/newtons_cradle.gif" width="350" alt="Newton's Cradle"/><br/>
+      <b>Newton's Cradle</b><br/>
+      Conservation of momentum and energy
+    </td>
+    <td align="center">
+      <img src="demos/physics_builder.gif" width="350" alt="Physics Builder"/><br/>
+      <b>Interactive Physics Builder</b><br/>
+      Build and simulate custom scenes
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="demos/momentum_transfer.gif" width="350" alt="Momentum Transfer"/><br/>
+      <b>Momentum Transfer</b><br/>
+      Elastic collision chain reaction
+    </td>
+    <td align="center">
+      <img src="demos/balls_chamber.gif" width="350" alt="Balls Chamber"/><br/>
+      <b>Balls Chamber</b><br/>
+      High-energy particle simulation
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="demos/ball_pit.gif" width="350" alt="Ball Pit"/><br/>
+      <b>Ball Pit</b><br/>
+      Continuous spawning simulation
+    </td>
+    <td align="center">
+      <img src="demos/sandbox.gif" width="350" alt="Interactive Sandbox"/><br/>
+      <b>Interactive Sandbox</b><br/>
+      Click to spawn and interact
+    </td>
+  </tr>
+</table>
+
 ## Overview
 
 This project implements a complete 2D physics simulation system from scratch, featuring:
