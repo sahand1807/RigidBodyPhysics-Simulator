@@ -190,51 +190,27 @@ def calculate_energy(self):
 Whenever you add new classes or functions:
 
 1. **Add proper documentation comments** to your code
-2. **Regenerate the documentation**:
-   ```bash
-   doxygen Doxyfile  # For C++
-   cd python/docs/api && make html  # For Python
-   ```
-3. **Commit the updated docs** to version control
+2. **Push to master branch** - GitHub Actions will automatically rebuild and deploy documentation
 
-## Hosting Documentation
+The documentation is automatically hosted at: https://sahand1807.github.io/RigidBodyPhysics-Simulator/
 
-### GitHub Pages
-
-You can host the documentation on GitHub Pages:
-
-1. Generate documentation
-2. Copy `docs/api/cpp/html` to `docs/cpp`
-3. Copy `python/docs/api/build/html` to `docs/python`
-4. Enable GitHub Pages in repository settings
-5. Set source to `docs` folder
-
-### Read the Docs
-
-For Python documentation, you can use Read the Docs:
-
-1. Create account at https://readthedocs.org
-2. Link your GitHub repository
-3. RTD will automatically build Sphinx documentation
+See `README_HOSTING.md` for details on the automated deployment system.
 
 ## Documentation Structure
 
 ```
 docs/
-├── 01_Vector2_Documentation.md          # Manual docs
+├── 01_Vector2_Documentation.md          # Manual documentation
 ├── 02_Transform_Documentation.md
 ├── ...
 ├── 10_Constraint_System_Documentation.md
 ├── 11_Newtons_Cradle_Example.md
-├── api/                                  # Generated API docs
-│   ├── cpp/                             # Doxygen output
-│   │   └── html/
-│   │       └── index.html
-│   └── python/                          # Sphinx output (if setup)
-│       └── build/
-│           └── html/
-│               └── index.html
-└── README_API_DOCS.md                   # This file
+├── README_API_DOCS.md                   # Local build instructions
+└── README_HOSTING.md                    # GitHub Pages setup guide
+
+# Generated API docs (not committed to git)
+docs/api/cpp/                            # Doxygen output (gitignored)
+python/docs/api/build/                   # Sphinx output (gitignored)
 ```
 
 ## Tips

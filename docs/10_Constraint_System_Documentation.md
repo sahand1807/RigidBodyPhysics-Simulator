@@ -424,16 +424,6 @@ ball.set_friction(0.0)       # Frictionless
   - Using spatial partitioning
   - Solving only active/nearby constraints
 
-## Future Extensions
-
-Potential constraint types to add:
-- **Hinge Constraint**: Fixed rotation point
-- **Slider Constraint**: Linear motion along axis
-- **Angular Constraint**: Maintain relative angle
-- **Motor Constraint**: Driven rotation/translation
-
-All would follow the same XPBD pattern and Constraint base class interface.
-
 ## References
 
 - **XPBD**: M. Macklin et al., "XPBD: Position-Based Simulation of Compliant Constrained Dynamics" (2016)

@@ -55,3 +55,6 @@ htmlcov/
 docs/_build/
 docs/api/cpp/
 python/docs/api/build/
+
+# Personal files (not for public repo)
+CV_HIGHLIGHTS.md
