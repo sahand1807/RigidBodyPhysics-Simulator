@@ -123,9 +123,6 @@ python3 python/examples/momentum_transfer.py
 
 # Ball pit with dynamic spawning
 python3 python/examples/ball_pit.py
-
-# Pyramid stack (press SPACE to launch projectile)
-python3 python/examples/pyramid.py
 ```
 
 **Controls:**
@@ -144,7 +141,6 @@ python3 python/examples/pyramid.py
 2. **Bouncing Balls**: Simple demonstration of balls bouncing with varying properties
 3. **Momentum Transfer**: Projectile hits stationary chain, demonstrating elastic collision momentum transfer
 4. **Ball Pit**: Continuous spawning of balls into a container
-5. **Pyramid Stack**: Stacking stability test with projectile launcher (press SPACE)
 
 ## Physics Theory
 
@@ -189,7 +185,7 @@ Where:
 - [x] Phase 4: Collision system (circle-circle detection and response)
 - [x] Phase 5: Python bindings (pybind11, full C++ API exposure)
 - [x] Phase 6: Visualization (Pygame, camera system, interactive demos)
-- [ ] Phase 7: Enhanced features (boxes, rotation, advanced demos)
+- [x] Phase 7: Enhanced features (BoxCollider, box-circle collision, realistic ground planes)
 
 
 ## Creator

@@ -15,6 +15,7 @@
 #include "physics/RigidBody.hpp"
 #include "physics/Collider.hpp"
 #include "physics/CircleCollider.hpp"
+#include "physics/BoxCollider.hpp"
 #include "physics/PhysicsWorld.hpp"
 
 #include <cmath>
@@ -173,6 +174,32 @@ PYBIND11_MODULE(physics_engine_core, m) {
 
         .def("__repr__", [](const CircleCollider& c) {
             return "CircleCollider(radius=" + std::to_string(c.getRadius()) + ")";
+        });
+
+    // ========================================
+    // BoxCollider Class
+    // ========================================
+    py::class_<BoxCollider, Collider>(m, "BoxCollider")
+        .def(py::init<float, float>(), "Create box collider with width and height",
+             py::arg("width"), py::arg("height"))
+        .def(py::init<float, float, const Vector2&>(),
+             "Create box collider with width, height and offset",
+             py::arg("width"), py::arg("height"), py::arg("offset"))
+
+        .def("get_width", &BoxCollider::getWidth, "Get box width")
+        .def("get_height", &BoxCollider::getHeight, "Get box height")
+        .def("set_width", &BoxCollider::setWidth, "Set box width", py::arg("width"))
+        .def("set_height", &BoxCollider::setHeight, "Set box height", py::arg("height"))
+        .def("set_dimensions", &BoxCollider::setDimensions, "Set both dimensions",
+             py::arg("width"), py::arg("height"))
+        .def("get_half_width", &BoxCollider::getHalfWidth, "Get half-width")
+        .def("get_half_height", &BoxCollider::getHalfHeight, "Get half-height")
+        .def("contains_point", &BoxCollider::containsPoint, "Check if point is inside box",
+             py::arg("point"))
+
+        .def("__repr__", [](const BoxCollider& b) {
+            return "BoxCollider(width=" + std::to_string(b.getWidth()) +
+                   ", height=" + std::to_string(b.getHeight()) + ")";
         });
 
     // ========================================

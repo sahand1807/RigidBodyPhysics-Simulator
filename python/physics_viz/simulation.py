@@ -233,14 +233,14 @@ class InteractiveSandbox(Simulation):
 
     def setup(self):
         """Setup sandbox with ground"""
-        from .physics_engine_core import RigidBody, CircleCollider
+        from .physics_engine_core import RigidBody, BoxCollider
 
-        # Create ground
+        # Create ground (box platform)
         ground = RigidBody()
-        ground_collider = CircleCollider(100.0)
-        ground.set_collider(ground_collider)
+        ground_box = BoxCollider(150.0, 3.0)  # Very wide platform, 3m thick
+        ground.set_collider(ground_box)
         ground.set_static()
-        ground.set_position(Vector2(0, -100))
+        ground.set_position(Vector2(0, -10))
         self.world.add_body(ground)
 
     def on_mouse_click(self, pos, button):

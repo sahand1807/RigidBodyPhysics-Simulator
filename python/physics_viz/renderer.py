@@ -146,6 +146,79 @@ class Renderer:
         pygame.draw.line(self.screen, (255, 255, 255),
                         screen_pos, end_screen, 2)
 
+    def draw_box_collider(self, body):
+        """Draw a box collider
+
+        Args:
+            body: RigidBody with BoxCollider
+        """
+        collider = body.get_collider()
+        width = collider.get_width()
+        height = collider.get_height()
+
+        # Get world position and rotation
+        world_pos = body.get_position()
+        rotation = body.get_rotation()
+
+        # Calculate the four corners in local space
+        half_w = width / 2.0
+        half_h = height / 2.0
+
+        local_corners = [
+            Vector2(-half_w, -half_h),  # Bottom-left
+            Vector2(half_w, -half_h),   # Bottom-right
+            Vector2(half_w, half_h),    # Top-right
+            Vector2(-half_w, half_h),   # Top-left
+        ]
+
+        # Transform corners to world space and then to screen space
+        screen_corners = []
+        cos_r = math.cos(rotation)
+        sin_r = math.sin(rotation)
+
+        for local_corner in local_corners:
+            # Rotate
+            rotated_x = local_corner.x * cos_r - local_corner.y * sin_r
+            rotated_y = local_corner.x * sin_r + local_corner.y * cos_r
+
+            # Translate
+            world_corner = Vector2(
+                world_pos.x + rotated_x,
+                world_pos.y + rotated_y
+            )
+
+            # Convert to screen space
+            screen_corner = self.camera.world_to_screen(world_corner)
+            screen_corners.append(screen_corner)
+
+        # Skip if too small
+        if len(screen_corners) < 3:
+            return
+
+        # Choose color based on static/dynamic
+        if body.is_static():
+            color = self.COLORS['static_body']
+        else:
+            color = self.COLORS['dynamic_body']
+
+        # Draw filled polygon
+        pygame.draw.polygon(self.screen, color, screen_corners)
+
+        # Draw outline
+        if self.show_colliders:
+            pygame.draw.polygon(self.screen, self.COLORS['collider'],
+                              screen_corners, 2)
+
+        # Draw rotation indicator (line from center to right edge midpoint)
+        center_screen = self.camera.world_to_screen(world_pos)
+        indicator_end = Vector2(
+            world_pos.x + half_w * cos_r,
+            world_pos.y + half_w * sin_r
+        )
+        indicator_screen = self.camera.world_to_screen(indicator_end)
+        pygame.draw.line(self.screen, (255, 255, 255),
+                        center_screen, indicator_screen, 2)
+
     def draw_body(self, body):
         """Draw a rigid body
 
@@ -160,7 +233,8 @@ class Renderer:
 
         if collider_type == ColliderType.Circle:
             self.draw_circle_collider(body)
-        # Add other collider types here (Box, etc.)
+        elif collider_type == ColliderType.Box:
+            self.draw_box_collider(body)
 
     def draw_velocity_vector(self, body, scale=0.5):
         """Draw velocity vector

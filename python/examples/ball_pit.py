@@ -6,7 +6,7 @@ Drops many balls into a container and watches them bounce and settle.
 Demonstrates collision handling with many objects.
 """
 
-from physics_viz import Simulation, Vector2, RigidBody, CircleCollider
+from physics_viz import Simulation, Vector2, RigidBody, CircleCollider, BoxCollider
 import random
 
 
@@ -24,32 +24,32 @@ class BallPit(Simulation):
         # Normal gravity
         self.world.set_gravity(Vector2(0, -9.81))
 
-        # Create container walls (static circles as walls)
+        # Create container walls (box colliders)
 
         # Bottom
         bottom = RigidBody()
-        bottom_collider = CircleCollider(50.0)
-        bottom.set_collider(bottom_collider)
+        bottom_box = BoxCollider(40.0, 2.0)  # 40m wide, 2m thick
+        bottom.set_collider(bottom_box)
         bottom.set_static()
-        bottom.set_position(Vector2(0, -50))
+        bottom.set_position(Vector2(0, -10))
         bottom.set_restitution(0.6)
         self.world.add_body(bottom)
 
         # Left wall
         left_wall = RigidBody()
-        left_collider = CircleCollider(50.0)
-        left_wall.set_collider(left_collider)
+        left_box = BoxCollider(2.0, 25.0)  # 2m thick, 25m tall
+        left_wall.set_collider(left_box)
         left_wall.set_static()
-        left_wall.set_position(Vector2(-60, 0))
+        left_wall.set_position(Vector2(-21, 2))
         left_wall.set_restitution(0.6)
         self.world.add_body(left_wall)
 
         # Right wall
         right_wall = RigidBody()
-        right_collider = CircleCollider(50.0)
-        right_wall.set_collider(right_collider)
+        right_box = BoxCollider(2.0, 25.0)  # 2m thick, 25m tall
+        right_wall.set_collider(right_box)
         right_wall.set_static()
-        right_wall.set_position(Vector2(60, 0))
+        right_wall.set_position(Vector2(21, 2))
         right_wall.set_restitution(0.6)
         self.world.add_body(right_wall)
 

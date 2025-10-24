@@ -6,7 +6,7 @@ Simple demo with balls bouncing on a ground.
 Good for testing basic physics and rendering.
 """
 
-from physics_viz import Simulation, Vector2, RigidBody, CircleCollider
+from physics_viz import Simulation, Vector2, RigidBody, CircleCollider, BoxCollider
 import random
 
 
@@ -21,12 +21,12 @@ class BouncingBalls(Simulation):
         # Normal gravity
         self.world.set_gravity(Vector2(0, -9.81))
 
-        # Create ground (large static circle)
+        # Create ground (wide box platform)
         ground = RigidBody()
-        ground_collider = CircleCollider(50.0)
-        ground.set_collider(ground_collider)
+        ground_box = BoxCollider(100.0, 2.0)  # 100m wide, 2m thick
+        ground.set_collider(ground_box)
         ground.set_static()
-        ground.set_position(Vector2(0, -50))
+        ground.set_position(Vector2(0, -10))  # Position so top is at y=-9
         ground.set_restitution(0.8)  # Bouncy ground
         self.world.add_body(ground)
 

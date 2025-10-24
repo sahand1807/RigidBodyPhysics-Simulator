@@ -92,9 +92,8 @@ def test_demo_imports():
 
     demos = [
         'bouncing_balls',
-        'newtons_cradle',
+        'momentum_transfer',
         'ball_pit',
-        'pyramid',
     ]
 
     success = True

@@ -16,6 +16,7 @@ try:
         Collider,
         ColliderType,
         CircleCollider,
+        BoxCollider,
 
         # Physics
         RigidBody,
@@ -46,6 +47,7 @@ __all__ = [
     'Collider',
     'ColliderType',
     'CircleCollider',
+    'BoxCollider',
 
     # Physics
     'RigidBody',

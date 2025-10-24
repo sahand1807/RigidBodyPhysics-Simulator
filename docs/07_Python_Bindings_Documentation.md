@@ -1343,10 +1343,9 @@ We now have:
 - Camera system
 - Interactive controls
 - Demo scenarios:
-  - Newton's Cradle
-  - Domino effect
-  - Particle fountain
-  - Pyramid stack
+  - Bouncing balls
+  - Momentum transfer
+  - Ball pit
   - Interactive sandbox
 
 **Phase 7: Enhanced Features**

@@ -17,6 +17,7 @@
 #include "physics/Manifold.hpp"
 #include "physics/RigidBody.hpp"
 #include "physics/CircleCollider.hpp"
+#include "physics/BoxCollider.hpp"
 
 namespace Physics {
 
@@ -95,8 +96,54 @@ public:
      */
     static bool circleVsCircle(RigidBody* bodyA, RigidBody* bodyB, Manifold& manifold);
 
+    // ========================================
+    // Circle-Box Collision
+    // ========================================
+
+    /**
+     * @brief Detect collision between a circle and a box
+     * @param bodyA First body (circle or box)
+     * @param bodyB Second body (box or circle)
+     * @param manifold Output manifold (filled if collision detected)
+     * @return True if collision detected, false otherwise
+     *
+     * Algorithm:
+     * 1. Determine which body is circle and which is box
+     * 2. Transform circle center to box's local space
+     * 3. Find closest point on box to circle center (clamping)
+     * 4. Calculate distance from closest point to circle center
+     * 5. If distance < radius, collision detected
+     * 6. Calculate normal, penetration, and contact point
+     *
+     * Mathematical details:
+     * - Transform circle to box local space (rotation and translation)
+     * - Clamp to box half-extents: closest = clamp(localCircle, -halfExtents, +halfExtents)
+     * - Distance: d = |localCircle - closest|
+     * - Collision: d < radius
+     * - Normal: n = (localCircle - closest) / d, transformed back to world space
+     * - Penetration: p = radius - d
+     *
+     * Edge cases:
+     * - Circle center inside box: closest = clamp gives point on/inside box
+     * - Circle exactly on box edge: distance = 0, use box normal
+     * - Corner collision: normal points from corner to circle center
+     *
+     * Example:
+     * @code
+     * // Circle at (5, 5) with radius 1
+     * RigidBody* ball = ...;
+     * // Box at (0, 0) with width=4, height=2
+     * RigidBody* ground = ...;
+     *
+     * Manifold m;
+     * if (CollisionDetection::circleVsBox(ball, ground, m)) {
+     *     // Collision detected
+     * }
+     * @endcode
+     */
+    static bool circleVsBox(RigidBody* bodyA, RigidBody* bodyB, Manifold& manifold);
+
     // Future: More collision types
-    // static bool circleVsBox(RigidBody* circle, RigidBody* box, Manifold& manifold);
     // static bool boxVsBox(RigidBody* boxA, RigidBody* boxB, Manifold& manifold);
 
     // ========================================
