@@ -39,9 +39,8 @@ jobs:
 
     - name: Build Python documentation with Sphinx
       run: |
-        cd python
-        sphinx-apidoc -f -o docs/api/source physics_viz
-        cd docs/api
+        sphinx-apidoc -f -o python/docs/api/source python/physics_viz
+        cd python/docs/api
         make html
 
     - name: Organize documentation for deployment
