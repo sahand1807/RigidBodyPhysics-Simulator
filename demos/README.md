@@ -2,6 +2,8 @@
 
 This directory contains GIF recordings of the physics simulations for the README gallery.
 
+**Note**: The GIFs have not been recorded yet. See below for instructions on how to create them.
+
 ## Creating Demo GIFs
 
 ### Quick Guide

@@ -16,13 +16,15 @@ class Simulation:
     Subclass this to create specific demo scenarios.
     """
 
-    def __init__(self, width=1280, height=720, title="Physics Simulation"):
+    def __init__(self, width=1280, height=720, title="Physics Simulation", record_gif=None, record_duration=10):
         """Initialize simulation
 
         Args:
             width: Window width in pixels
             height: Window height in pixels
             title: Window title
+            record_gif: Optional path to save GIF recording
+            record_duration: Duration to record in seconds (default: 10)
         """
         # Create renderer
         self.renderer = Renderer(width, height, title)
@@ -45,6 +47,12 @@ class Simulation:
         self.mouse_pos = (0, 0)
         self.mouse_down = False
         self.mouse_drag_start = None
+
+        # GIF recording
+        self.gif_recorder = None
+        if record_gif:
+            from .gif_recorder import GifRecorder
+            self.gif_recorder = GifRecorder(record_gif, duration=record_duration, fps=15)
 
     def setup(self):
         """Setup simulation (override in subclasses)
@@ -191,7 +199,20 @@ class Simulation:
             self.renderer.draw_text("PAUSED", (self.renderer.width // 2 - 50, 10),
                                    font='large', color='highlight')
 
+        # Show recording indicator
+        if self.gif_recorder and self.gif_recorder.is_recording():
+            self.renderer.draw_text("🎬 RECORDING", (10, 10),
+                                   font='large', color='red')
+
         self.renderer.flip()
+
+        # Capture frame for GIF
+        if self.gif_recorder:
+            if not self.gif_recorder.capture(self.renderer.screen):
+                # Recording finished
+                self.gif_recorder.save()
+                self.gif_recorder = None
+                self.running = False  # Auto-quit after recording
 
     def run(self):
         """Run simulation loop"""

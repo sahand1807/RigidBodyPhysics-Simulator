@@ -23,18 +23,6 @@ A high-performance 2D rigid body physics engine written in C++ from scratch, wit
 <table>
   <tr>
     <td align="center">
-      <img src="demos/newtons_cradle.gif" width="350" alt="Newton's Cradle"/><br/>
-      <b>Newton's Cradle</b><br/>
-      Conservation of momentum and energy
-    </td>
-    <td align="center">
-      <img src="demos/physics_builder.gif" width="350" alt="Physics Builder"/><br/>
-      <b>Interactive Physics Builder</b><br/>
-      Build and simulate custom scenes
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
       <img src="demos/momentum_transfer.gif" width="350" alt="Momentum Transfer"/><br/>
       <b>Momentum Transfer</b><br/>
       Elastic collision chain reaction
@@ -52,12 +40,14 @@ A high-performance 2D rigid body physics engine written in C++ from scratch, wit
       Continuous spawning simulation
     </td>
     <td align="center">
-      <img src="demos/sandbox.gif" width="350" alt="Interactive Sandbox"/><br/>
-      <b>Interactive Sandbox</b><br/>
-      Click to spawn and interact
+      <img src="demos/bouncing_balls.gif" width="350" alt="Bouncing Balls"/><br/>
+      <b>Bouncing Balls</b><br/>
+      Basic physics demonstration
     </td>
   </tr>
 </table>
+
+> **Note**: More demos available! Run examples with `python3 python/examples/<demo_name>.py`
 
 ## Overview
 
