@@ -87,7 +87,7 @@ class BallPit(Simulation):
 
         # Random restitution (bounciness)
         ball.set_restitution(random.uniform(0.3, 0.8))
-        ball.set_friction(0.3)
+        # No friction to avoid C++ friction bugs
 
         self.world.add_body(ball)
 

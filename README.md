@@ -112,11 +112,17 @@ for i in range(100):
 ### Running Demos
 
 ```bash
+# Interactive Physics Builder (full scene editor)
+python3 python/examples/physics_builder.py
+
 # Interactive sandbox (click to spawn balls)
 python3 python/examples/sandbox.py
 
 # Bouncing balls demonstration
 python3 python/examples/bouncing_balls.py
+
+# High-energy balls in a closed chamber
+python3 python/examples/balls_chamber.py
 
 # Momentum transfer through collision chain
 python3 python/examples/momentum_transfer.py
@@ -137,10 +143,19 @@ python3 python/examples/ball_pit.py
 
 ## Demo Scenarios
 
-1. **Interactive Sandbox**: Click to spawn random balls and watch them interact
-2. **Bouncing Balls**: Simple demonstration of balls bouncing with varying properties
-3. **Momentum Transfer**: Projectile hits stationary chain, demonstrating elastic collision momentum transfer
-4. **Ball Pit**: Continuous spawning of balls into a container
+1. **Physics Builder**: Full-featured scene editor with UI controls
+   - Select shape type (circle/box) and configure parameters
+   - Set position, size, mass, and velocity
+   - Toggle objects between static and dynamic
+   - Enable/disable gravity
+   - Material properties hardcoded (restitution=0.9, no friction)
+   - Reset to initial state, zoom in/out
+   - Build complete scenes then run simulations
+2. **Interactive Sandbox**: Click to spawn random balls and watch them interact
+3. **Bouncing Balls**: Simple demonstration of balls bouncing with varying properties
+4. **Balls Chamber**: High-energy particles bouncing in a closed chamber
+5. **Momentum Transfer**: Projectile hits stationary chain, demonstrating elastic collision momentum transfer
+6. **Ball Pit**: Continuous spawning of balls into a container
 
 ## Physics Theory
 
