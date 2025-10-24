@@ -45,6 +45,13 @@ A high-performance 2D rigid body physics engine written in C++ from scratch, wit
       Basic physics demonstration
     </td>
   </tr>
+  <tr>
+    <td align="center" colspan="2">
+      <img src="demos/newtons_cradle.gif" width="720" alt="Newton's Cradle"/><br/>
+      <b>Newton's Cradle</b><br/>
+      Momentum & energy conservation with distance constraints
+    </td>
+  </tr>
 </table>
 
 > **Note**: More demos available! Run examples with `python3 python/examples/<demo_name>.py`

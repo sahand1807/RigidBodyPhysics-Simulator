@@ -452,8 +452,21 @@ class NewtonsCradle(Simulation):
         if self.show_help:
             self.renderer.draw_help()
 
+        # Show recording indicator
+        if self.gif_recorder and self.gif_recorder.is_recording():
+            self.renderer.draw_text("🎬 RECORDING", (10, 10),
+                                   font='large', color='red')
+
         # Flip display
         self.renderer.flip()
+
+        # Capture frame for GIF
+        if self.gif_recorder:
+            if not self.gif_recorder.capture(self.renderer.screen):
+                # Recording finished
+                self.gif_recorder.save()
+                self.gif_recorder = None
+                self.running = False  # Auto-quit after recording
 
     def draw_stats(self):
         """Draw statistics in top-left"""
